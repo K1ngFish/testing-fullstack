@@ -1,34 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+    const [locations, setLocations] = useState([])
+    const [items, setItems] = useState([])
+
+    const [location, setLocation] = useState(null)
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/locations/?format=json')
+            .then((response) => response.json())
+            .then((data) => {
+                setLocations(data)
+            })
+            .catch((err) => {
+                console.log(err.message)
+            }, [])
+    }, []);
+
+    useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/items/?format=json')
+        .then((response) => response.json())
+        .then((data) => {
+
+            setItems(data)
+        })
+        .catch((err) => {
+            console.log(err.message)
+        }, [])
+}, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <>
+          <h1>Locations</h1>
+          <ul>
+              {locations.map((l) => {
+                  return <li key={l.id}>{l.name}</li>
+              })}
+          </ul>
+          <h1>Items</h1>
+          <ul>
+              {items.map((i) => {
+                  return <li key={i.id}>{i.name}</li>
+              })}
+          </ul>
+      </>
   )
 }
 
