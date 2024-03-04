@@ -16,7 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 MEDIA_ROOT = str(BASE_DIR / "media")
-MEDIA_URL = 'https://localhost:8000/media/'
+MEDIA_URL = '/media/'
 
 
 # Quick-start development settings - unsuitable for production
