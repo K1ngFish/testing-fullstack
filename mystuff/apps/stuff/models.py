@@ -23,5 +23,5 @@ class Item(models.Model):
         ordering = ['-modified']
 
     def __str__(self):
-        return self.name
+        return str(self.name) if self.name else f'Item-{self.id}'
 
